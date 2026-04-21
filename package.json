@@ -1,0 +1,48 @@
+{
+  "name": "color-theme-studio",
+  "version": "1.0.0",
+  "description": "Interactive color theme designer - pick any color, generate OKLCH shade palettes, preview live across UI components, and export theme files (CSS + JS + TypeScript) with runtime switching, localStorage persistence, and Tailwind CSS v4 support",
+  "author": "Lior Cohen",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://github.com/liorcodev/color-theme-studio#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liorcodev/color-theme-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liorcodev/color-theme-studio/issues"
+  },
+  "keywords": [
+    "theme",
+    "color",
+    "oklch",
+    "css-variables",
+    "theme-builder",
+    "shade-generator",
+    "tailwind"
+  ],
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.6.1",
+    "highlight.js": "^11.11.1",
+    "jszip": "^3.10.1",
+    "marked": "^18.0.2",
+    "marked-highlight": "^2.2.4",
+    "nuxt": "^4.4.2",
+    "tailwindcss": "^4.2.3",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
+  }
+}

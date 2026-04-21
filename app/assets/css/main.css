@@ -1,0 +1,116 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@theme {
+  --font-default: 'Inter', sans-serif;
+
+  --color-theme-50: #f0f7ff;
+  --color-theme-100: #e0eefe;
+  --color-theme-200: #bbddfc;
+  --color-theme-300: #7fc2fa;
+  --color-theme-400: #3aa3f6;
+  --color-theme-500: #1187e6;
+  --color-theme-600: #0469c5;
+  --color-theme-700: #05549f;
+  --color-theme-800: #094c8b;
+  --color-theme-900: #0d3d6d;
+  --color-theme-950: #092648;
+}
+
+:root {
+  --ui-primary: var(--color-theme-500);
+}
+
+body {
+  font-family: var(--font-default);
+}
+
+/* ── Docs prose styles ────────────────────────────────────────────── */
+.docs-content {
+  color: var(--ui-text);
+  line-height: 1.75;
+  font-size: 0.9375rem;
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--ui-text-highlighted);
+  }
+  h2 {
+    font-size: 1.375rem;
+    border-bottom: 1px solid var(--ui-border);
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.125rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  a {
+    color: var(--ui-primary);
+    text-decoration: underline;
+  }
+  a:hover {
+    opacity: 0.8;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--ui-border);
+    margin: 2rem 0;
+  }
+
+  code:not(pre code) {
+    font-family: ui-monospace, monospace;
+    font-size: 0.85em;
+    background: var(--ui-bg-elevated);
+    border: 1px solid var(--ui-border);
+    border-radius: 0.25rem;
+    padding: 0.1em 0.35em;
+  }
+
+  pre {
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    background: #0d1117;
+    padding: 1rem 1.25rem;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--ui-primary);
+    padding-left: 1rem;
+    color: var(--ui-text-muted);
+    margin: 1rem 0;
+    font-style: italic;
+  }
+}
