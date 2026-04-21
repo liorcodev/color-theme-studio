@@ -70,6 +70,18 @@ function setDefault(name: string) {
   defaultTheme.value = name;
 }
 
+function reorderThemes(fromIndex: number, toIndex: number) {
+  if (fromIndex === toIndex) return;
+  if (fromIndex < 0 || fromIndex >= themes.value.length) return;
+  if (toIndex < 0 || toIndex >= themes.value.length) return;
+
+  const newThemes = [...themes.value];
+  const [movedTheme] = newThemes.splice(fromIndex, 1);
+  if (!movedTheme) return;
+  newThemes.splice(toIndex, 0, movedTheme);
+  themes.value = newThemes;
+}
+
 // Security validation functions
 function isValidHexColor(color: unknown): color is string {
   return typeof color === 'string' && HEX_COLOR_REGEX.test(color);
@@ -318,6 +330,7 @@ export function useThemeStore() {
     addTheme,
     removeTheme,
     setDefault,
+    reorderThemes,
     exportThemes,
     importThemes
   };

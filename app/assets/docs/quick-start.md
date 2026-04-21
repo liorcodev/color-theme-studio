@@ -12,6 +12,33 @@
 
 ---
 
+## Managing Saved Themes
+
+### Reordering Themes
+
+- **Drag and drop** any saved theme to reorder them in your list
+- The entire theme card is draggable - just click and drag to your preferred position
+- Great for organizing themes by priority or project
+
+### Theme Actions
+
+Each saved theme has quick actions:
+
+- **🎨 Apply** - Load the theme color into the color picker for editing
+- **⭐ Star** - Set as the default theme (marked with a star icon)
+- **🗑️ Remove** - Delete the theme from your collection
+
+### Tips
+
+- **Hover** over truncated theme names to see the full name in a tooltip
+- **Export/Import** your entire theme collection as JSON to share or backup
+  - Exports include all themes, the default theme, and your export options (Tailwind/Nuxt UI
+    settings)
+  - Importing restores themes and settings automatically
+- The **default theme** (marked with ⭐) is highlighted in exports
+
+---
+
 ## Generated Files
 
 When you click **Download ZIP**, you get three ready-to-use files:

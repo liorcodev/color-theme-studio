@@ -26,9 +26,19 @@
       <div class="text-xs text-muted font-medium uppercase tracking-wide">Saved themes</div>
 
       <div
-        v-for="theme in themes"
+        v-for="(theme, index) in themes"
         :key="theme.name"
-        class="flex items-center gap-2 px-3 py-2 rounded-lg border border-default bg-elevated hover:bg-accented transition-colors"
+        draggable="true"
+        class="flex items-center gap-2.5 px-3 py-2 rounded-lg border border-default bg-elevated hover:bg-accented transition-colors cursor-move"
+        :class="{
+          'opacity-50': draggedIndex === index,
+          'border-primary': dropTargetIndex === index
+        }"
+        @dragstart="handleDragStart(index, $event)"
+        @dragend="handleDragEnd"
+        @dragover="handleDragOver(index, $event)"
+        @dragleave="handleDragLeave"
+        @drop="handleDrop(index, $event)"
       >
         <!-- Color dot -->
         <div
@@ -36,8 +46,10 @@
           :style="{ backgroundColor: theme.shades['500'] }"
         />
 
-        <!-- Name -->
-        <span class="flex-1 text-sm font-mono truncate">{{ theme.name }}</span>
+        <!-- Name with tooltip -->
+        <UTooltip :text="theme.name" class="flex-1 min-w-0">
+          <span class="block text-sm font-mono truncate">{{ theme.name }}</span>
+        </UTooltip>
 
         <!-- Apply to picker -->
         <UTooltip text="Apply to color picker">
@@ -125,6 +137,7 @@ const {
   removeTheme,
   setDefault,
   setColor,
+  reorderThemes,
   exportThemes,
   importThemes
 } = useThemeStore();
@@ -132,6 +145,48 @@ const {
 const fileInput = ref<HTMLInputElement | null>(null);
 const importMessage = ref('');
 const importError = ref(false);
+
+// Drag and drop state
+const draggedIndex = ref<number | null>(null);
+const dropTargetIndex = ref<number | null>(null);
+
+function handleDragStart(index: number, event: DragEvent) {
+  draggedIndex.value = index;
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', index.toString());
+  }
+}
+
+function handleDragEnd() {
+  draggedIndex.value = null;
+  dropTargetIndex.value = null;
+}
+
+function handleDragOver(index: number, event: DragEvent) {
+  event.preventDefault();
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move';
+  }
+  if (draggedIndex.value !== null && draggedIndex.value !== index) {
+    dropTargetIndex.value = index;
+  }
+}
+
+function handleDragLeave() {
+  dropTargetIndex.value = null;
+}
+
+function handleDrop(toIndex: number, event: DragEvent) {
+  event.preventDefault();
+
+  if (draggedIndex.value !== null && draggedIndex.value !== toIndex) {
+    reorderThemes(draggedIndex.value, toIndex);
+  }
+
+  draggedIndex.value = null;
+  dropTargetIndex.value = null;
+}
 
 function applyTheme(theme: ThemeEntry) {
   // Apply the theme's base color (500 shade) to the color picker
