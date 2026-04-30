@@ -32,15 +32,15 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/ui": "^4.6.1",
+    "@nuxt/ui": "^4.7.1",
     "highlight.js": "^11.11.1",
     "jszip": "^3.10.1",
     "marked": "^18.0.2",
     "marked-highlight": "^2.2.4",
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.4.4",
     "tailwindcss": "^4.2.4",
-    "vue": "^3.5.32",
-    "vue-router": "^5.0.4"
+    "vue": "^3.5.33",
+    "vue-router": "^5.0.6"
   },
   "devDependencies": {
     "prettier": "^3.8.3"
