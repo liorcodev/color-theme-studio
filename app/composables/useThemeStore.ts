@@ -1,8 +1,10 @@
 import { ref, computed } from 'vue';
-import { generateShades } from '~/utils/oklch';
-import type { ThemeEntry } from '~/types/theme';
+import { generateShades, deriveSecondary } from '~/utils/oklch';
+import type { ThemeEntry, SecondaryMode } from '~/types/theme';
 
 const DEFAULT_COLOR = '#3b82f6';
+const DEFAULT_SECONDARY_COLOR = '#10b981';
+const DEFAULT_HUE_SHIFT = 150;
 const NAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-]*$/;
 
 // Security constants
@@ -33,10 +35,38 @@ const themes = ref<ThemeEntry[]>([]);
 const defaultTheme = ref('');
 const includeTailwind = ref(false);
 const includeNuxtUI = ref(false);
+const secondaryMode = ref<SecondaryMode>('off');
+const secondaryColor = ref(DEFAULT_SECONDARY_COLOR);
+const secondaryHueShift = ref(DEFAULT_HUE_SHIFT);
+
+// Base (500-ish) color of the secondary: derived from the primary in auto mode, picked in manual mode
+const secondaryBase = computed<string | null>(() => {
+  if (secondaryMode.value === 'auto') {
+    return deriveSecondary(currentColor.value, secondaryHueShift.value);
+  }
+  if (secondaryMode.value === 'manual') return secondaryColor.value;
+  return null;
+});
+
+const secondaryShades = computed<Record<string, string> | undefined>(() =>
+  secondaryBase.value ? generateShades(secondaryBase.value) : undefined
+);
 
 function setColor(hex: string) {
   currentColor.value = hex;
   currentShades.value = generateShades(hex);
+}
+
+function setSecondaryColor(hex: string) {
+  secondaryColor.value = hex;
+}
+
+function setSecondaryMode(mode: SecondaryMode) {
+  secondaryMode.value = mode;
+}
+
+function setSecondaryHueShift(deg: number) {
+  secondaryHueShift.value = deg;
 }
 
 function addTheme() {
@@ -54,7 +84,9 @@ function addTheme() {
     return;
   }
   nameError.value = '';
-  themes.value = [...themes.value, { name, shades: { ...currentShades.value } }];
+  const entry: ThemeEntry = { name, shades: { ...currentShades.value } };
+  if (secondaryShades.value) entry.secondary = { ...secondaryShades.value };
+  themes.value = [...themes.value, entry];
   if (!defaultTheme.value) defaultTheme.value = name;
   currentName.value = '';
 }
@@ -122,7 +154,11 @@ function isValidThemeEntry(entry: unknown): entry is ThemeEntry {
   }
 
   const themeEntry = entry as Record<string, unknown>;
-  return isValidThemeName(themeEntry.name) && isValidShades(themeEntry.shades);
+  return (
+    isValidThemeName(themeEntry.name) &&
+    isValidShades(themeEntry.shades) &&
+    (themeEntry.secondary === undefined || isValidShades(themeEntry.secondary))
+  );
 }
 
 interface ImportData {
@@ -326,6 +362,14 @@ export function useThemeStore() {
     includeTailwind,
     includeNuxtUI,
     themeInfos,
+    secondaryMode,
+    secondaryColor,
+    secondaryHueShift,
+    secondaryBase,
+    secondaryShades,
+    setSecondaryMode,
+    setSecondaryColor,
+    setSecondaryHueShift,
     setColor,
     addTheme,
     removeTheme,

@@ -29,11 +29,26 @@ export function generateCss(
     lines.push('}');
   }
 
+  const secondaryPrefix = `${prefix}-secondary`;
+  const emitSecondary = (theme: ThemeEntry) => {
+    if (theme.secondary) {
+      for (const [shade, color] of Object.entries(theme.secondary)) {
+        lines.push(`  --${secondaryPrefix}-${shade}: ${color};`);
+      }
+    } else if (defaultTheme.secondary) {
+      // Reset so a theme without a secondary doesn't inherit the default theme's one
+      for (const shade of Object.keys(defaultTheme.secondary)) {
+        lines.push(`  --${secondaryPrefix}-${shade}: initial;`);
+      }
+    }
+  };
+
   // Add the :root block with theme colors
   lines.push('', ':root {');
   for (const [shade, color] of Object.entries(defaultTheme.shades)) {
     lines.push(`  --${prefix}-${shade}: ${color};`);
   }
+  emitSecondary(defaultTheme);
   // Add Nuxt UI integration to the same :root block if enabled
   if (options.includeNuxtUI) {
     lines.push(`  --ui-primary: var(--${prefix}-500);`);
@@ -45,6 +60,7 @@ export function generateCss(
     for (const [shade, color] of Object.entries(theme.shades)) {
       lines.push(`  --${prefix}-${shade}: ${color};`);
     }
+    emitSecondary(theme);
     lines.push('}');
   }
 

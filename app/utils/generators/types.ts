@@ -13,6 +13,7 @@ export type ThemeName = ${themeUnion};
 export interface ThemeInfo {
   name: ThemeName;
   color: string;
+  secondary?: string;
 }
 
 export interface ColorThemeAPI {

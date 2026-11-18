@@ -164,6 +164,13 @@ const SHADES = [
   '950'
 ] as const;
 
+// Rotates the hue of `hex` around the OKLCH wheel, keeping lightness and (gamut-clamped) chroma.
+export function deriveSecondary(hex: string, hueShift = 150): string {
+  const { L, C, H } = hexToOklch(hex);
+  const h = (((H + hueShift) % 360) + 360) % 360;
+  return oklchToHex(L, clampChromaToGamut(L, C, h), h);
+}
+
 export function generateShades(hex: string): Record<string, string> {
   const { L, C, H } = hexToOklch(hex);
   // Wider clamp so dark or very light base colours still spread evenly.

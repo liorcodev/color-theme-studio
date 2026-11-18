@@ -3,6 +3,7 @@ import type { ThemeEntry } from '~/types/theme';
 export function generateJs(themes: ThemeEntry[], defaultThemeName: string): string {
   const themeNames = themes.map(t => t.name);
   const themeColors: Record<string, string> = {};
+  const themeSecondaries: Record<string, string> = {};
   for (const theme of themes) {
     const shades = Object.entries(theme.shades);
     themeColors[theme.name] =
@@ -10,10 +11,13 @@ export function generateJs(themes: ThemeEntry[], defaultThemeName: string): stri
       shades[Math.floor(shades.length / 2)]?.[1] ??
       shades[0]?.[1] ??
       '#000000';
+    const secondary = theme.secondary?.['500'];
+    if (secondary) themeSecondaries[theme.name] = secondary;
   }
 
   const themesLiteral = JSON.stringify(themeNames);
   const themeColorsLiteral = JSON.stringify(themeColors, null, 2);
+  const themeSecondariesLiteral = JSON.stringify(themeSecondaries, null, 2);
   const defaultLiteral = JSON.stringify(defaultThemeName);
   const storageKeyLiteral = JSON.stringify('user-theme');
 
@@ -26,6 +30,7 @@ export function generateJs(themes: ThemeEntry[], defaultThemeName: string): stri
   var STORAGE_KEY = ${storageKeyLiteral};
   var themes = ${themesLiteral};
   var themeColors = ${themeColorsLiteral};
+  var themeSecondaries = ${themeSecondariesLiteral};
   var defaultTheme = ${defaultLiteral};
 
   function applyTheme(name) {
@@ -47,7 +52,11 @@ export function generateJs(themes: ThemeEntry[], defaultThemeName: string): stri
   }
 
   function getThemes() {
-    return themes.map(function (name) { return { name: name, color: themeColors[name] }; });
+    return themes.map(function (name) {
+      var info = { name: name, color: themeColors[name] };
+      if (themeSecondaries[name]) info.secondary = themeSecondaries[name];
+      return info;
+    });
   }
 
   (function init() {

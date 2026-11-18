@@ -1,6 +1,6 @@
 {
   "name": "color-theme-studio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Interactive color theme designer - pick any color, generate OKLCH shade palettes, preview live across UI components, and export theme files (CSS + JS + TypeScript) with runtime switching, localStorage persistence, and Tailwind CSS v4 support",
   "author": "Lior Cohen",
   "private": true,
@@ -32,17 +32,17 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/ui": "^4.6.1",
-    "highlight.js": "^11.11.1",
-    "jszip": "^3.10.1",
-    "marked": "^18.0.2",
+    "@nuxt/ui": "^4.13.0",
+    "highlight.js": "^11.12.0",
+    "jszip": "^3.10.2",
+    "marked": "^18.2.1",
     "marked-highlight": "^2.2.4",
-    "nuxt": "^4.4.2",
-    "tailwindcss": "^4.2.4",
-    "vue": "^3.5.32",
-    "vue-router": "^5.0.4"
+    "nuxt": "^4.6.4",
+    "tailwindcss": "^4.3.5",
+    "vue": "^3.5.45",
+    "vue-router": "^5.5.1"
   },
   "devDependencies": {
-    "prettier": "^3.8.3"
+    "prettier": "^3.10.1"
   }
 }

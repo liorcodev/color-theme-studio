@@ -20,3 +20,11 @@ prefix. Use them anywhere in your CSS:
 ```
 
 The active theme class is applied to `<html>` automatically.
+
+### Secondary color
+
+In the **Secondary Color** panel choose **Auto** (hue rotated from the primary, adjustable) or
+**Manual** (pick any color). Themes saved with a secondary also export `--color-theme-secondary-50`
+to `--color-theme-secondary-950`, and `ColorTheme.getThemes()` returns a `secondary` color.
+[noofpi-ui](https://liorcodev.github.io/noofpi-ui-docs/) reads these variables for its `secondary`
+color. **Off** exports no secondary.

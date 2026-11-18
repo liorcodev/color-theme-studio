@@ -40,11 +40,18 @@
         @dragleave="handleDragLeave"
         @drop="handleDrop(index, $event)"
       >
-        <!-- Color dot -->
-        <div
-          class="w-3 h-3 rounded-full shrink-0 ring-1 ring-default"
-          :style="{ backgroundColor: theme.shades['500'] }"
-        />
+        <!-- Color dots (primary, secondary) -->
+        <div class="flex shrink-0 -space-x-1">
+          <div
+            class="w-3 h-3 rounded-full ring-1 ring-default"
+            :style="{ backgroundColor: theme.shades['500'] }"
+          />
+          <div
+            v-if="theme.secondary"
+            class="w-3 h-3 rounded-full ring-1 ring-default"
+            :style="{ backgroundColor: theme.secondary['500'] }"
+          />
+        </div>
 
         <!-- Name with tooltip -->
         <UTooltip :text="theme.name" class="flex-1 min-w-0">
@@ -137,7 +144,8 @@ const {
   removeTheme,
   setDefault,
   setColor,
-  reorderThemes,
+  setSecondaryColor,
+  setSecondaryMode,
   exportThemes,
   importThemes
 } = useThemeStore();
@@ -193,6 +201,13 @@ function applyTheme(theme: ThemeEntry) {
   const baseColor = theme.shades['500'];
   if (baseColor) {
     setColor(baseColor);
+  }
+  const secondaryBase = theme.secondary?.['500'];
+  if (secondaryBase) {
+    setSecondaryColor(secondaryBase);
+    setSecondaryMode('manual');
+  } else {
+    setSecondaryMode('off');
   }
 }
 

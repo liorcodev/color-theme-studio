@@ -33,6 +33,47 @@
           </div>
         </section>
 
+        <!-- Secondary Palette Section -->
+        <section v-if="secondaryList.length" class="space-y-4">
+          <div class="border-b border-default pb-2">
+            <h3 class="text-lg font-bold text-primary">Secondary Palette</h3>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <div
+              v-for="shade in secondaryList"
+              :key="shade.key"
+              class="overflow-hidden rounded-lg shadow-md"
+            >
+              <div class="aspect-square" :style="{ backgroundColor: shade.hex }"></div>
+              <div class="p-2 bg-default">
+                <p class="text-xs font-semibold text-primary">{{ shade.key }}</p>
+                <p class="text-xs font-mono text-muted">{{ shade.hex }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-theme-500"
+              >Primary</span
+            >
+            <span
+              class="px-4 py-2 rounded-lg text-sm font-semibold text-white"
+              :style="{ backgroundColor: 'var(--color-theme-secondary-500)' }"
+              >Secondary</span
+            >
+            <span
+              class="px-4 py-2 rounded-lg text-sm font-semibold border-2"
+              :style="{
+                color: 'var(--color-theme-secondary-700)',
+                backgroundColor: 'var(--color-theme-secondary-50)',
+                borderColor: 'var(--color-theme-secondary-300)'
+              }"
+              >Secondary soft</span
+            >
+          </div>
+        </section>
+
         <!-- Typography & Text Section -->
         <section class="space-y-4">
           <div class="border-b border-default pb-2">
@@ -354,7 +395,7 @@
 </template>
 
 <script setup lang="ts">
-const { currentShades } = useThemeStore();
+const { currentShades, secondaryShades } = useThemeStore();
 
 // Inject CSS custom properties into document head
 useHead(
@@ -364,6 +405,9 @@ useHead(
         innerHTML: `:root {
 ${Object.entries(currentShades.value)
   .map(([k, v]) => `  --color-theme-${k}: ${v};`)
+  .join('\n')}
+${Object.entries(secondaryShades.value ?? {})
+  .map(([k, v]) => `  --color-theme-secondary-${k}: ${v};`)
   .join('\n')}
 }`,
         id: 'theme-vars'
@@ -378,6 +422,11 @@ const progressValue = ref(67);
 // Shade palette for display
 const SHADE_KEYS = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 
+const secondaryList = computed(() =>
+  secondaryShades.value
+    ? SHADE_KEYS.map(key => ({ key, hex: secondaryShades.value?.[key] ?? '#000000' }))
+    : []
+);
 const shadeList = computed(() =>
   SHADE_KEYS.map(key => ({
     key,

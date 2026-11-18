@@ -9,6 +9,8 @@
         <USeparator />
         <ShadeGrid />
         <USeparator />
+        <SecondaryPanel />
+        <USeparator />
         <ThemeList />
         <USeparator />
         <OutputPanel />
@@ -44,6 +46,8 @@
             <ColorPickerPanel />
             <USeparator />
             <ShadeGrid />
+            <USeparator />
+            <SecondaryPanel />
             <USeparator />
             <ThemeList />
             <USeparator />
