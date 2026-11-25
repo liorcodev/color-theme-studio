@@ -2,7 +2,9 @@
 
 <br/>
 
-# 🎨 <br/> Color Theme Studio
+<img src="./public/favicon.svg" alt="Color Theme Studio logo" width="96" height="96" />
+
+# Color Theme Studio
 
 <h3>Interactive Color Theme Designer for Any Web Apps</h3>
 
