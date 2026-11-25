@@ -1,14 +1,11 @@
 <template>
   <div class="space-y-3">
-    <div class="text-sm font-medium text-highlighted">Secondary Color</div>
+    <div class="panel-title">
+      <span class="panel-title-icon"><NIcon name="i-lucide-blend" class="size-3.5" /></span>
+      Secondary Color
+    </div>
 
-    <URadioGroup
-      v-model="secondaryMode"
-      orientation="horizontal"
-      size="sm"
-      :items="modes"
-      :ui="{ fieldset: 'flex-wrap gap-x-3 gap-y-1' }"
-    />
+    <NRadioGroup v-model="secondaryMode" orientation="horizontal" size="sm" :items="modes" />
 
     <p v-if="secondaryMode === 'off'" class="text-xs text-muted">
       No secondary exported. noofpi-ui keeps its default blue secondary.
@@ -20,7 +17,7 @@
         <span>Hue shift from primary</span>
         <span class="font-mono">{{ secondaryHueShift }}°</span>
       </div>
-      <USlider v-model="secondaryHueShift" :min="0" :max="360" :step="5" />
+      <NSlider v-model="secondaryHueShift" :min="0" :max="360" :step="5" />
     </div>
 
     <!-- Manual: pick the color -->
@@ -28,22 +25,21 @@
       <label class="relative cursor-pointer">
         <input type="color" :value="secondaryColor" class="sr-only" @input="onColorInput" />
         <div
-          class="w-10 h-10 rounded-lg border-2 border-default shadow-sm cursor-pointer transition-transform hover:scale-105"
+          class="size-11 rounded-xl ring-2 ring-offset-2 ring-offset-(--ui-bg) ring-default shadow-md cursor-pointer transition-transform hover:scale-105"
           :style="{ backgroundColor: secondaryColor }"
         />
       </label>
-      <UInput
+      <NInput
         v-model="hexText"
         placeholder="#10b981"
-        class="flex-1 font-mono"
-        :ui="{ base: 'uppercase' }"
+        class="flex-1 font-mono [&_input]:uppercase"
         @blur="onHexBlur"
         @keydown.enter="onHexBlur"
       >
         <template #leading>
           <span class="text-muted text-xs">#</span>
         </template>
-      </UInput>
+      </NInput>
     </div>
 
     <!-- Generated secondary shades -->

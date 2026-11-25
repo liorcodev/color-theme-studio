@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
-import { generateShades, deriveSecondary } from '~/utils/oklch';
-import type { ThemeEntry, SecondaryMode } from '~/types/theme';
+import { generateShades, deriveSecondary } from '../utils/oklch';
+import type { ThemeEntry, SecondaryMode } from '../types/theme';
 
 const DEFAULT_COLOR = '#3b82f6';
 const DEFAULT_SECONDARY_COLOR = '#10b981';

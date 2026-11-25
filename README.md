@@ -13,7 +13,7 @@
 
 <br/>
 
-[![Nuxt](https://img.shields.io/badge/Nuxt-4-00dc82.svg)](https://nuxt.com/)
+[![noofpi](https://img.shields.io/badge/noofpi-2-42b883.svg)](https://liorcodev.github.io/noofpi-docs/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub Pages](https://github.com/liorcodev/color-theme-studio/actions/workflows/deploy.yml/badge.svg)](https://github.com/liorcodev/color-theme-studio/actions/workflows/deploy.yml)

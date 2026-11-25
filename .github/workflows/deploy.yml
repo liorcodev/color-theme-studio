@@ -39,7 +39,7 @@ jobs:
         run: bun install
 
       - name: Build static site
-        run: bun run generate
+        run: bun run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

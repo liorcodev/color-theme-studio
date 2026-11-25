@@ -1,4 +1,4 @@
-import type { ThemeEntry } from '~/types/theme';
+import type { ThemeEntry } from '../../types/theme';
 
 export function generateTypes(themes: ThemeEntry[]): string {
   const themeNames = themes.map(t => t.name);

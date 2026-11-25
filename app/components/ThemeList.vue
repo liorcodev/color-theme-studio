@@ -1,25 +1,29 @@
 <template>
   <div class="space-y-3">
-    <div class="text-sm font-medium text-highlighted">Save Theme</div>
+    <div class="panel-title">
+      <span class="panel-title-icon"><NIcon name="i-lucide-bookmark-plus" class="size-3.5" /></span>
+      Save Theme
+    </div>
 
     <!-- Name input + add button -->
-    <UFormField :error="nameError || undefined">
+    <NFormField :error="nameError || undefined">
       <div class="flex gap-2">
-        <UInput
+        <NInput
           v-model="currentName"
           placeholder="theme-name"
           class="flex-1 font-mono"
           @keydown.enter="addTheme"
           @update:model-value="nameError = ''"
         />
-        <UButton
+        <NButton
           icon="i-lucide-plus"
           color="primary"
+          aria-label="Add theme"
           :disabled="!currentName.trim()"
           @click="addTheme"
         />
       </div>
-    </UFormField>
+    </NFormField>
 
     <!-- Saved themes list -->
     <div v-if="themes.length" class="space-y-2">
@@ -54,42 +58,47 @@
         </div>
 
         <!-- Name with tooltip -->
-        <UTooltip :text="theme.name" class="flex-1 min-w-0">
-          <span class="block text-sm font-mono truncate">{{ theme.name }}</span>
-        </UTooltip>
+        <div class="flex-1 min-w-0">
+          <NTooltip :text="theme.name">
+            <span class="block text-sm font-mono truncate">{{ theme.name }}</span>
+          </NTooltip>
+        </div>
 
         <!-- Apply to picker -->
-        <UTooltip text="Apply to color picker">
-          <UButton
+        <NTooltip text="Apply to color picker">
+          <NButton
             icon="i-lucide-palette"
             color="primary"
             variant="ghost"
             size="xs"
+            aria-label="Apply to color picker"
             @click="applyTheme(theme)"
           />
-        </UTooltip>
+        </NTooltip>
 
         <!-- Default radio -->
-        <UTooltip text="Set as default">
-          <UButton
+        <NTooltip text="Set as default">
+          <NButton
             icon="i-lucide-star"
             :color="defaultTheme === theme.name ? 'primary' : 'neutral'"
             :variant="defaultTheme === theme.name ? 'solid' : 'ghost'"
             size="xs"
+            aria-label="Set as default"
             @click="setDefault(theme.name)"
           />
-        </UTooltip>
+        </NTooltip>
 
         <!-- Delete -->
-        <UTooltip text="Remove">
-          <UButton
+        <NTooltip text="Remove">
+          <NButton
             icon="i-lucide-trash-2"
             color="error"
             variant="ghost"
             size="xs"
+            aria-label="Remove"
             @click="removeTheme(theme.name)"
           />
-        </UTooltip>
+        </NTooltip>
       </div>
     </div>
 
@@ -97,7 +106,7 @@
 
     <!-- Import/Export section -->
     <div class="flex gap-2 pt-2 border-t border-default">
-      <UButton
+      <NButton
         v-if="themes.length"
         icon="i-lucide-download"
         color="neutral"
@@ -107,8 +116,8 @@
         @click="handleExport"
       >
         Export
-      </UButton>
-      <UButton
+      </NButton>
+      <NButton
         icon="i-lucide-upload"
         color="neutral"
         variant="soft"
@@ -117,7 +126,7 @@
         @click="triggerImport"
       >
         Import
-      </UButton>
+      </NButton>
       <input ref="fileInput" type="file" accept=".json" class="hidden" @change="handleImport" />
     </div>
 
@@ -125,7 +134,7 @@
     <div
       v-if="importMessage"
       class="text-xs px-3 py-2 rounded-lg"
-      :class="importError ? 'bg-error-50 text-error-500' : 'bg-success-50 text-success-500'"
+      :class="importError ? 'bg-red-500/10 text-red-600' : 'bg-green-500/10 text-green-600'"
     >
       {{ importMessage }}
     </div>
@@ -133,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ThemeEntry } from '~/types/theme';
+import type { ThemeEntry } from '../types/theme';
 
 const {
   currentName,
@@ -143,6 +152,7 @@ const {
   addTheme,
   removeTheme,
   setDefault,
+  reorderThemes,
   setColor,
   setSecondaryColor,
   setSecondaryMode,

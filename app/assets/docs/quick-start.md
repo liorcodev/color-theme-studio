@@ -1,6 +1,6 @@
 ## Quick Start
 
-1. Open the **Builder** tab and pick a base color.
+1. Open the **Studio** and pick a base color.
 2. Give your theme a name (e.g. `ocean-blue`) and click **Add**.
 3. Repeat for as many themes as you need.
 4. Choose your **Export Options**:

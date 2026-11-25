@@ -1,14 +1,17 @@
 <template>
   <div class="space-y-3">
     <!-- Export options -->
-    <div class="space-y-2">
-      <p class="text-xs font-semibold text-foreground">Export Options</p>
-      <UCheckbox v-model="includeTailwind" label="Include Tailwind CSS v4" />
-      <UCheckbox v-model="includeNuxtUI" label="Include Nuxt UI integration" />
+    <div class="flex flex-col gap-2.5">
+      <div class="panel-title">
+        <span class="panel-title-icon"><NIcon name="i-lucide-package" class="size-3.5" /></span>
+        Export
+      </div>
+      <NCheckbox v-model="includeTailwind" label="Include Tailwind CSS v4" />
+      <NCheckbox v-model="includeNuxtUI" label="Include Nuxt UI integration" />
     </div>
 
     <!-- Download button -->
-    <UButton
+    <NButton
       block
       icon="i-lucide-download"
       :disabled="!themes.length"
@@ -17,7 +20,7 @@
       @click="downloadZip"
     >
       Download ZIP
-    </UButton>
+    </NButton>
 
     <!-- Hint -->
     <p class="text-xs text-center text-muted">
@@ -31,7 +34,7 @@
 
 <script setup lang="ts">
 import JSZip from 'jszip';
-import { generateCss, generateJs, generateTypes } from '~/utils/generators';
+import { generateCss, generateJs, generateTypes } from '../utils/generators';
 
 const { themes, defaultTheme, includeTailwind, includeNuxtUI } = useThemeStore();
 

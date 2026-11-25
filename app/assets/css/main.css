@@ -1,9 +1,10 @@
 @import 'tailwindcss';
-@import '@nuxt/ui';
+@import 'noofpi-ui';
+@import 'highlight.js/styles/github-dark.min.css';
 
-@theme {
-  --font-default: 'Inter', sans-serif;
+@custom-variant dark (&:where(.dark, .dark *));
 
+@theme static {
   --color-theme-50: #f0f7ff;
   --color-theme-100: #e0eefe;
   --color-theme-200: #bbddfc;
@@ -17,12 +18,208 @@
   --color-theme-950: #092648;
 }
 
-:root {
-  --ui-primary: var(--color-theme-500);
+@theme inline {
+  --color-primary: var(--ui-primary);
+}
+
+/* Semantic tokens used by the app. `.theme` makes a subtree re-resolve the primary shades. */
+:root,
+.theme {
+  --ui-primary: var(--ui-primary-500);
+  --ui-bg: #fff;
+  --ui-bg-muted: var(--ui-neutral-50);
+  --ui-bg-elevated: var(--ui-neutral-100);
+  --ui-bg-accented: var(--ui-neutral-200);
+  --ui-text: var(--ui-neutral-700);
+  --ui-text-muted: var(--ui-neutral-500);
+  --ui-text-highlighted: var(--ui-neutral-900);
+  --ui-border: var(--ui-neutral-200);
+
+  @variant dark {
+    --ui-primary: var(--ui-primary-400);
+    --ui-bg: var(--ui-neutral-950);
+    --ui-bg-muted: var(--ui-neutral-900);
+    --ui-bg-elevated: var(--ui-neutral-900);
+    --ui-bg-accented: var(--ui-neutral-800);
+    --ui-text: var(--ui-neutral-200);
+    --ui-text-highlighted: var(--ui-neutral-50);
+    --ui-border: var(--ui-neutral-800);
+  }
+}
+
+@utility text-default {
+  color: var(--ui-text);
+}
+@utility text-muted {
+  color: var(--ui-text-muted);
+}
+@utility text-highlighted {
+  color: var(--ui-text-highlighted);
+}
+@utility bg-default {
+  background-color: var(--ui-bg);
+}
+@utility bg-muted {
+  background-color: var(--ui-bg-muted);
+}
+@utility bg-elevated {
+  background-color: var(--ui-bg-elevated);
+}
+@utility bg-accented {
+  background-color: var(--ui-bg-accented);
+}
+@utility border-default {
+  border-color: var(--ui-border);
+}
+@utility ring-default {
+  --tw-ring-color: var(--ui-border);
 }
 
 body {
-  font-family: var(--font-default);
+  background-color: var(--ui-bg);
+  color: var(--ui-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-theme-500) 30%, transparent);
+}
+
+/* Slim, unobtrusive scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ui-text-muted) 35%, transparent) transparent;
+}
+
+/* ── App surfaces ─────────────────────────────────────────────────────── */
+/* The whole app is tinted by the theme being designed */
+.app-backdrop {
+  background-color: color-mix(in oklab, var(--color-theme-500) 5%, var(--ui-bg));
+  background-image:
+    radial-gradient(
+      55rem 32rem at 92% -8%,
+      color-mix(in oklab, var(--color-theme-500) 38%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50rem 34rem at -8% 108%,
+      color-mix(in oklab, var(--color-theme-400) 30%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30rem 20rem at 45% 55%,
+      color-mix(in oklab, var(--color-theme-300) 12%, transparent),
+      transparent 70%
+    );
+  background-attachment: fixed;
+}
+
+/* Browser-window frame around the live preview */
+.studio-frame {
+  border: 1px solid color-mix(in oklab, var(--color-theme-500) 25%, var(--ui-border));
+  border-radius: 1.25rem;
+  background-color: var(--ui-bg);
+  box-shadow:
+    0 30px 60px -24px color-mix(in oklab, var(--color-theme-600) 45%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--ui-bg) 60%, transparent);
+}
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ui-border);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-theme-500) 7%, var(--ui-bg-muted)),
+    var(--ui-bg-muted)
+  );
+}
+
+.dot-grid {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--ui-text-muted) 22%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+.glass {
+  background-color: color-mix(in oklab, var(--ui-bg) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.text-gradient {
+  background-image: linear-gradient(
+    120deg,
+    var(--color-theme-600),
+    var(--color-theme-400) 55%,
+    var(--color-theme-300)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-tile {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-theme-400),
+    var(--color-theme-600) 60%,
+    var(--color-theme-700)
+  );
+  box-shadow:
+    0 6px 16px -4px color-mix(in oklab, var(--color-theme-500) 55%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.25);
+}
+
+/* Sidebar control cards */
+.panel-card {
+  border: 1px solid var(--ui-border);
+  border-radius: 1.125rem;
+  background-color: var(--ui-bg);
+  padding: 1.125rem;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 8px 24px -16px color-mix(in oklab, var(--color-theme-600) 40%, transparent);
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ui-text-muted);
+}
+.panel-title > .panel-title-icon {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--color-theme-500) 14%, transparent);
+  color: var(--color-theme-500);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 /* ── Docs prose styles ────────────────────────────────────────────── */
@@ -91,12 +288,14 @@ body {
   }
 
   pre {
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     overflow-x: auto;
     margin-bottom: 1.25rem;
     font-size: 0.85rem;
     line-height: 1.6;
     background: #0d1117;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.35);
     padding: 1rem 1.25rem;
   }
   pre code {
@@ -106,11 +305,41 @@ body {
     font-size: inherit;
   }
 
+  > :first-child {
+    margin-top: 0;
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--ui-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    font-size: 0.875rem;
+  }
+  th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--ui-text-highlighted);
+    background: var(--ui-bg-muted);
+  }
+  th,
+  td {
+    padding: 0.625rem 0.875rem;
+    border-bottom: 1px solid var(--ui-border);
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+
   blockquote {
     border-left: 3px solid var(--ui-primary);
-    padding-left: 1rem;
+    background: color-mix(in oklab, var(--ui-primary) 6%, transparent);
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.5rem 1rem;
     color: var(--ui-text-muted);
     margin: 1rem 0;
-    font-style: italic;
   }
 }

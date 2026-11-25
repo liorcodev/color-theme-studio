@@ -1,11 +1,14 @@
 <template>
-  <div class="space-y-2">
-    <div class="text-sm font-medium text-highlighted">Shade Palette</div>
-    <div class="grid grid-cols-1 gap-1">
+  <div class="space-y-3">
+    <div class="panel-title">
+      <span class="panel-title-icon"><NIcon name="i-lucide-layers" class="size-3.5" /></span>
+      Shade Palette
+    </div>
+    <div class="flex flex-col overflow-hidden rounded-xl ring-1 ring-black/10 shadow-sm">
       <button
         v-for="shade in shades"
         :key="shade.key"
-        class="relative flex items-center justify-between px-3 py-2 rounded-lg transition-all hover:brightness-110 active:scale-95 group"
+        class="relative flex items-center justify-between px-3 py-1.5 transition-all hover:brightness-110 hover:pl-4 active:brightness-95 group"
         :style="{ backgroundColor: shade.hex }"
         @click="copyShade(shade)"
       >
@@ -17,10 +20,10 @@
         </span>
         <!-- Copy hint -->
         <span
-          class="absolute inset-0 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs font-semibold"
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs font-semibold"
           :style="{ color: shade.textColor, backgroundColor: shade.hex + 'cc' }"
         >
-          <UIcon name="i-lucide-copy" class="mr-1 size-3" />
+          <NIcon name="i-lucide-copy" class="mr-1 size-3" />
           Copy
         </span>
       </button>
@@ -29,8 +32,9 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'noofpi-ui';
+
 const { currentShades } = useThemeStore();
-const toast = useToast();
 
 const SHADE_KEYS = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 

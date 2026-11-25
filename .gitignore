@@ -1,9 +1,6 @@
-# Nuxt dev/build outputs
+# noofpi dev/build outputs
 .output
-.data
-.nuxt
-.nitro
-.cache
+.noofpi
 dist
 
 # Node dependencies

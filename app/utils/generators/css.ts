@@ -1,4 +1,4 @@
-import type { ThemeEntry } from '~/types/theme';
+import type { ThemeEntry } from '../../types/theme';
 
 export interface CssOptions {
   includeTailwind?: boolean;

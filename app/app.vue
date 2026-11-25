@@ -1,7 +1,4 @@
-<template>
-  <UApp>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </UApp>
+﻿<template>
+  <NoofpiLayout />
+  <NToaster position="bottom-right" />
 </template>
